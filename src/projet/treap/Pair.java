@@ -1,4 +1,4 @@
-package projet.tarbre;
+package projet.treap;
 
 public class Pair <F, S> {
 	private final F fst;
