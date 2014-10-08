@@ -1,30 +1,47 @@
 package projet.treap;
 
-public class Treap <Key extends Comparable<Key>, Valeur> {
+public class Treap<Key extends Comparable<Key>, Valeur> {
 	private Node<Key> node;
 
-	public Pair<Node<Key>, Node<Key>> split(Node<Key> node, Key key) { // OMFG
-		// if (root == null) return null;
-		if (rootKeyLessThanKey (node, key)) {
-			return split (node.rightChild, key);
+	public Node<Key> getNode() {
+		return node;
+	}
 
-		} else if (rootKeyMoreThanKey (node, key)) {
-			return split (node.leftChild, key);
+	public Treap(Node<Key> node) {
+		this.node = node;
+	}
 
-		} else {
-			return new Pair <Node<Key>, Node<Key>> (node.leftChild,
-					node.rightChild);
+	// public Pair<Node<Key>, Node<Key>> split(Node<Key> node, Key key) {
+	public Pair<Treap<Key, Valeur>, Treap<Key, Valeur>> split(Node<Key> node, Key key) {
 
+		if (node == null)
+			return null;
+
+		if (nodeKeyLessThanKey(node, key)) {
+			Pair<Treap<Key, Valeur>, Treap<Key, Valeur>> rightChildSplit = split(this.node.rightChild, key);
+			node.rightChild = rightChildSplit.getFst().node;
+			return new Pair<Treap<Key, Valeur>, Treap<Key, Valeur>>(rightChildSplit.getSnd(), this);
+
+		} else if (nodeKeyMoreThanKey(node, key)) {
+			Pair<Treap<Key, Valeur>, Treap<Key, Valeur>> leftChildSplit = split(this.node.leftChild, key);
+			node.leftChild = leftChildSplit.getSnd().node;
+			return new Pair<Treap<Key, Valeur>, Treap<Key, Valeur>>(leftChildSplit.getFst(), this);
+
+
+		} else { // root key equals key
+			return new Pair<Treap<Key, Valeur>,Treap<Key, Valeur>>(
+					new Treap<Key, Valeur>(node.leftChild),
+					new Treap<Key, Valeur>(node.rightChild));
 		}
 
 	}
 
-	private boolean rootKeyLessThanKey(Node<Key> root, Key key) {
+	private boolean nodeKeyLessThanKey(Node<Key> root, Key key) {
 		return root.key.compareTo(key) < 0;
 
 	}
 
-	private boolean rootKeyMoreThanKey(Node<Key> root, Key key) {
+	private boolean nodeKeyMoreThanKey(Node<Key> root, Key key) {
 		return root.key.compareTo(key) > 0;
 
 	}
