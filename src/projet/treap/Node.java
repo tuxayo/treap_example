@@ -11,6 +11,12 @@ public class Node<Key extends Comparable<Key>> {
 		this.priority = priority;
 	}
 
+	Node(Key key) { // for test purpose
+		this.key = key;
+		this.value = 0;
+		this.priority = 0;
+	}
+
 	public Node<Key> getLeftChild() {
 		return leftChild;
 	}
