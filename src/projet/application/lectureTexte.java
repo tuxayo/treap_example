@@ -12,7 +12,8 @@ public class lectureTexte {
 	private static void readTextFromStdIn() {
 		Pattern delim = Pattern.compile("[\\W_]",
 				Pattern.UNICODE_CHARACTER_CLASS);
-		Scanner scan = new Scanner(System.in).useDelimiter(delim);
+		Scanner scan = new Scanner(System.in);
+		scan.useDelimiter(delim);
 
 		String word = new String();
 		while (scan.hasNext()) {
