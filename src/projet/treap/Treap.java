@@ -15,15 +15,15 @@ public class Treap<Key extends Comparable<Key>, Valeur> {
 	public Pair<Treap<Key, Valeur>, Treap<Key, Valeur>> split(Node<Key> node, Key key) {
 
 		if (node == null)
-			return null;
+			return new Pair<Treap<Key, Valeur>,Treap<Key, Valeur>>(new Treap<Key, Valeur>(null),new Treap<Key, Valeur>(null));
 
 		if (nodeKeyLessThanKey(node, key)) {
-			Pair<Treap<Key, Valeur>, Treap<Key, Valeur>> rightChildSplit = split(this.node.rightChild, key);
+			Pair<Treap<Key, Valeur>, Treap<Key, Valeur>> rightChildSplit = split(node.rightChild, key);
 			node.rightChild = rightChildSplit.getFst().node;
 			return new Pair<Treap<Key, Valeur>, Treap<Key, Valeur>>(rightChildSplit.getSnd(), this);
 
 		} else if (nodeKeyMoreThanKey(node, key)) {
-			Pair<Treap<Key, Valeur>, Treap<Key, Valeur>> leftChildSplit = split(this.node.leftChild, key);
+			Pair<Treap<Key, Valeur>, Treap<Key, Valeur>> leftChildSplit = split(node.leftChild, key);
 			node.leftChild = leftChildSplit.getSnd().node;
 			return new Pair<Treap<Key, Valeur>, Treap<Key, Valeur>>(leftChildSplit.getFst(), this);
 

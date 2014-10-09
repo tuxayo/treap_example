@@ -16,6 +16,6 @@ public class TreapTest {
 		Treap<String, Integer> treap = new Treap<String, Integer>(nodeSillon);
 		Pair<Treap<String, Integer>, Treap<String, Integer>> splitResult = treap.split(treap.getNode(), "t");
 
-		assertEquals("sillon", splitResult.getFst().getNode().key); // TODO STACK OVERFLOW IS KILLING US
+		assertEquals("sillon", splitResult.getFst().getNode().key);
 	}
 }
