@@ -32,17 +32,14 @@ public class Treap<Key extends Comparable<Key>, Valeur> {
 					new Treap<Key, Valeur>(node.leftChild),
 					new Treap<Key, Valeur>(node.rightChild));
 		}
-
 	}
 
 	private boolean nodeKeyLessThanKey(Node<Key> root, Key key) {
 		return root.key.compareTo(key) < 0;
-
 	}
 
 	private boolean nodeKeyMoreThanKey(Node<Key> root, Key key) {
 		return root.key.compareTo(key) > 0;
-
 	}
 
 }
