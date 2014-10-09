@@ -9,9 +9,9 @@ public class TreapTest {
 
 	@Test
 	public void testSimpleSplitWithThreeNodes() {
-		Node<String> nodeYard = new Node<String>("yard");
-		Node<String> nodePied = new Node<String>("pied");
-		Node<String> nodeSillon = new Node<String>("sillon");
+		Node<String> nodeYard = new Node<>("yard");
+		Node<String> nodePied = new Node<>("pied");
+		Node<String> nodeSillon = new Node<>("sillon");
 		nodeSillon.setLeftChild(nodePied);
 		nodeSillon.setRightChild(nodeYard);
 		Treap<String, Integer> treap = new Treap<>(nodeSillon);
@@ -34,9 +34,9 @@ public class TreapTest {
 
 	@Test
 	public void testSimpleSplitWithThreeNodes2() {
-		Node<String> nodeYard = new Node<String>("yard");
-		Node<String> nodePied = new Node<String>("pied");
-		Node<String> nodeSillon = new Node<String>("sillon");
+		Node<String> nodeYard = new Node<>("yard");
+		Node<String> nodePied = new Node<>("pied");
+		Node<String> nodeSillon = new Node<>("sillon");
 		nodeSillon.setLeftChild(nodePied);
 		nodeSillon.setRightChild(nodeYard);
 		Treap<String, Integer> treap = new Treap<>(nodeSillon);
@@ -72,10 +72,10 @@ public class TreapTest {
 
 	@Test
 	public void testComplexTree() {
-		Node<String> nodeMille = new Node<String>("mille");
-		Node<String> nodeAnnee = new Node<String> ("année");
-		Node<String> nodeCoudee = new Node<String> ("coudée");
-		Node<String> nodeMetre = new Node<String> ("mètre");
+		Node<String> nodeMille = new Node<>("mille");
+		Node<String> nodeAnnee = new Node<> ("année");
+		Node<String> nodeCoudee = new Node<> ("coudée");
+		Node<String> nodeMetre = new Node<> ("mètre");
 
 		nodeMille.leftChild = nodeAnnee;
 		nodeMille.rightChild = nodeMetre;
@@ -96,11 +96,11 @@ public class TreapTest {
 	}
 
 	@Test
-	public void testComplexTreeSplitRoot() {
-		Node<String> nodeMille = new Node<String>("mille");
-		Node<String> nodeAnnee = new Node<String> ("année");
-		Node<String> nodeCoudee = new Node<String> ("coudée");
-		Node<String> nodeMetre = new Node<String> ("mètre");
+	public void testComplexTreeSplitOnRoot() { // root should not be in result
+		Node<String> nodeMille = new Node<>("mille");
+		Node<String> nodeAnnee = new Node<> ("année");
+		Node<String> nodeCoudee = new Node<> ("coudée");
+		Node<String> nodeMetre = new Node<> ("mètre");
 
 		nodeMille.leftChild = nodeAnnee;
 		nodeMille.rightChild = nodeMetre;
