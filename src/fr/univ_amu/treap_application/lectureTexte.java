@@ -1,4 +1,4 @@
-package projet.application;
+package fr.univ_amu.treap_application;
 
 import java.util.Scanner;
 import java.util.regex.Pattern;

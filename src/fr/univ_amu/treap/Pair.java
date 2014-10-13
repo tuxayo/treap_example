@@ -1,4 +1,4 @@
-package projet.treap;
+package fr.univ_amu.treap;
 
 public class Pair <F, S> {
 	private final F fst;

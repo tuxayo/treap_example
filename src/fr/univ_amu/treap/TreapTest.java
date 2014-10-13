@@ -1,4 +1,4 @@
-package projet.treap;
+package fr.univ_amu.treap;
 
 import static org.junit.Assert.assertEquals;
 

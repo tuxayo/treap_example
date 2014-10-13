@@ -1,4 +1,4 @@
-package projet.treap;
+package fr.univ_amu.treap;
 
 public class Treap<Key extends Comparable<Key>, Val> {
 	private Node<Key> node;
