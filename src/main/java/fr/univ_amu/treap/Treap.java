@@ -87,10 +87,10 @@ public class Treap<Key extends Comparable<Key>, Val> {
 
 
 		if (nodeKeyLessThanKey(nodeFound, key)) {
-			nodeFound.rightChild = nodeToInsert;
+			nodeFound.rightChild = nodeToInsert;	//TODO:prob insertion de sillon après pied
 			nodeToInsert.rightChild = treaps.getSecond().node;
 
-		} else {
+		} else { // nodeKeyMoreThan
 			nodeToInsert.leftChild = treaps.getFirst().node;
 			//treaps.getSecond().node.leftChild = nodeToInsert;
 			nodeFound.leftChild = nodeToInsert;

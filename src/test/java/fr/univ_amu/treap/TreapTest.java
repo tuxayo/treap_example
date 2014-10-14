@@ -133,8 +133,8 @@ public class TreapTest {
 		treap.insertWithPriority("mille", 11);
 		treap.insertWithPriority("aaaa", 52);
 		treap.insertWithPriority("mètre", 23);
-		treap.insertWithPriority("sillon", 65); // TODO swap with mètre and there is a bug
 		treap.insertWithPriority("pied", 96);
+		treap.insertWithPriority("sillon", 65);
 		treap.insertWithPriority("yard", 73);
 		treap.insertWithPriority("zèbre", 300);
 
