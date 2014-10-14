@@ -2,8 +2,11 @@ package fr.univ_amu.treap;
 
 public class Node<Key extends Comparable<Key>> {
 	Key key;
+
+	/*package*/ Node<Key> leftChild;
+	/*package*/ Node<Key> rightChild;
 	private float value;
-	private int priority;
+	int priority;
 
 	Node(Key key, float value, int priority) {
 		this.key = key;
@@ -33,7 +36,8 @@ public class Node<Key extends Comparable<Key>> {
 		this.rightChild = rightChild;
 	}
 
-	Node<Key> leftChild;
-	Node<Key> rightChild;
+	public boolean hasChild () {
+		return this.rightChild == null && this.leftChild == null;
+	}
 
 }

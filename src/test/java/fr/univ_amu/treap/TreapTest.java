@@ -1,7 +1,8 @@
 package fr.univ_amu.treap;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TreapTest {
@@ -16,7 +17,7 @@ public class TreapTest {
 		Treap<String, Integer> treap = new Treap<>(nodeSillon);
 		Pair<Treap<String, Integer>, Treap<String, Integer>> splitResult = treap.split(treap.getNode(), "t");
 
-		nodeSillon = splitResult.getFst().getNode();
+		nodeSillon = splitResult.getFirst().getNode();
 		assertEquals("sillon", nodeSillon.key);
 		assertEquals("pied", nodeSillon.leftChild.key);
 		assertEquals(null, nodeSillon.rightChild);
@@ -25,7 +26,7 @@ public class TreapTest {
 		assertEquals(null, nodePied.leftChild);
 		assertEquals(null, nodePied.rightChild);
 
-		nodeYard = splitResult.getSnd().getNode();
+		nodeYard = splitResult.getSecond().getNode();
 		assertEquals("yard", nodeYard.key);
 		assertEquals(null, nodeYard.leftChild);
 		assertEquals(null, nodeYard.rightChild);
@@ -41,12 +42,12 @@ public class TreapTest {
 		Treap<String, Integer> treap = new Treap<>(nodeSillon);
 		Pair<Treap<String, Integer>, Treap<String, Integer>> splitResult = treap.split(treap.getNode(), "po");
 
-		nodeSillon = splitResult.getSnd().getNode();
+		nodeSillon = splitResult.getSecond().getNode();
 		assertEquals("sillon", nodeSillon.key);
 		assertEquals(null, nodeSillon.leftChild);
 		assertEquals("yard", nodeSillon.rightChild.key);
 
-		Node<String> newNodePied = splitResult.getFst().getNode();
+		Node<String> newNodePied = splitResult.getFirst().getNode();
 		assertEquals("pied", newNodePied.key);
 	}
 
@@ -60,10 +61,10 @@ public class TreapTest {
 		Treap<String, Integer> treap = new Treap<>(nodeSillon);
 		Pair<Treap<String, Integer>, Treap<String, Integer>> splitResult = treap.split(treap.getNode(), "aaaaaa");
 
-		Node<String> nodeNull = splitResult.getFst().getNode();
+		Node<String> nodeNull = splitResult.getFirst().getNode();
 		assertEquals(null, nodeNull);
 
-		nodeSillon = splitResult.getSnd().getNode();
+		nodeSillon = splitResult.getSecond().getNode();
 		assertEquals("sillon", nodeSillon.key);
 		assertEquals("pied", nodeSillon.leftChild.key);
 		assertEquals("yard", nodeSillon.rightChild.key);
@@ -83,12 +84,12 @@ public class TreapTest {
 		Treap<String, Integer> treap = new Treap<>(nodeMille);
 		Pair<Treap<String, Integer>, Treap<String, Integer>> splitResult = treap.split(treap.getNode(), "baba");
 
-		nodeMille = splitResult.getSnd().getNode();
+		nodeMille = splitResult.getSecond().getNode();
 		assertEquals("mille", nodeMille.key);
 		assertEquals("coudée", nodeMille.leftChild.key);
 		assertEquals("mètre", nodeMille.rightChild.key);
 
-		nodeAnnee = splitResult.getFst().getNode();
+		nodeAnnee = splitResult.getFirst().getNode();
 		assertEquals("année", nodeAnnee.key);
 		assertEquals(null, nodeAnnee.leftChild);
 		assertEquals(null, nodeAnnee.rightChild);
@@ -108,12 +109,49 @@ public class TreapTest {
 		Treap<String, Integer> treap = new Treap<>(nodeMille);
 		Pair<Treap<String, Integer>, Treap<String, Integer>> splitResult = treap.split(treap.getNode(), "mille");
 
-		nodeMetre = splitResult.getSnd().getNode();
+		nodeMetre = splitResult.getSecond().getNode();
 		assertEquals("mètre", nodeMetre.key);
 
-		nodeAnnee = splitResult.getFst().getNode();
+		nodeAnnee = splitResult.getFirst().getNode();
 		assertEquals("année", nodeAnnee.key);
 		assertEquals(null, nodeAnnee.leftChild);
 		assertEquals("coudée", nodeAnnee.rightChild.key);
+	}
+
+	@Test @Ignore
+	public void testInsertEmptyTreap() {
+		Treap<String, Integer> treap = new Treap<>(null);
+		treap.insert("sillon");
+		assertEquals("sillon", treap.getNode().key);
+	}
+
+	@Test
+	public void testInsert() {
+		Treap<String, Integer> treap = new Treap<>(null);
+		treap.insertWithPriority("année-lumière", 51);
+		treap.insertWithPriority("coudée", 89);
+		treap.insertWithPriority("mille", 11);
+		treap.insertWithPriority("aaaa", 52);
+		treap.insertWithPriority("mètre", 23);
+		treap.insertWithPriority("sillon", 65); // TODO swap with mètre and there is a bug
+		treap.insertWithPriority("pied", 96);
+		treap.insertWithPriority("yard", 73);
+		treap.insertWithPriority("zèbre", 300);
+
+		Node<String> root = treap.getNode();
+		assertEquals("mille", root.key);
+		assertEquals("mètre", root.rightChild.key);
+		assertEquals("année-lumière", root.leftChild.key);
+
+		Node<String> aaaa = root.leftChild.leftChild;
+		assertEquals("aaaa", aaaa.key);
+		assertEquals(null, aaaa.leftChild);
+		assertEquals(null, aaaa.rightChild);
+		
+		Node<String> sillon = root.rightChild.rightChild;
+		assertEquals("sillon", sillon.key);
+		assertEquals("pied", sillon.leftChild.key);
+		assertEquals("yard", sillon.rightChild.key);
+		assertEquals("zèbre", sillon.rightChild.rightChild.key);
 	}
 }
