@@ -126,7 +126,42 @@ public class TreapTest {
 	}
 
 	@Test
-	public void testRandomOrderInsert() {
+	public void testInsertOrdered() {
+		Treap<String, Integer> treap = new Treap<>(null);
+
+		treap.insertWithPriority("mille", 11);
+		treap.insertWithPriority("année-lumière", 51);
+		treap.insertWithPriority("mètre", 23);
+		treap.insertWithPriority("aaaa", 52);
+		treap.insertWithPriority("coudée", 89);
+		treap.insertWithPriority("sillon", 65);
+		treap.insertWithPriority("pied", 96);
+		treap.insertWithPriority("yard", 73);
+		treap.insertWithPriority("zèbre", 300);
+
+		assertEquals("mille", treap.getNode().key);
+		assertEquals("mètre", treap.getNode().rightChild.key);
+		assertEquals("année-lumière", treap.getNode().leftChild.key);
+
+		Node<String> aaaa = treap.getNode().leftChild.leftChild;
+		assertEquals("aaaa", aaaa.key);
+		assertEquals(null, aaaa.leftChild);
+		assertEquals(null, aaaa.rightChild);
+
+		Node<String> sillon = treap.getNode().rightChild.rightChild;
+		assertEquals("sillon", sillon.key);
+		assertEquals("pied", sillon.leftChild.key);
+		Node<String> yard = sillon.rightChild;
+		assertEquals("yard", yard.key);
+		assertEquals("zèbre", yard.rightChild.key);
+
+		assertEquals(null, yard.rightChild.leftChild);
+		assertEquals(null, yard.rightChild.rightChild);
+		assertEquals(null, sillon.rightChild.rightChild.rightChild);
+	}
+
+	@Test
+	public void testInsertUnordered() {
 		Treap<String, Integer> treap = new Treap<>(null);
 
 		treap.insertWithPriority("yard", 73);
@@ -151,7 +186,11 @@ public class TreapTest {
 		Node<String> sillon = treap.getNode().rightChild.rightChild;
 		assertEquals("sillon", sillon.key);
 		assertEquals("pied", sillon.leftChild.key);
-		assertEquals("yard", sillon.rightChild.key);
-		assertEquals("zèbre", sillon.rightChild.rightChild.key);
+		Node<String> yard = sillon.rightChild;
+		assertEquals("yard", yard.key);
+		assertEquals("zèbre", yard.rightChild.key);
+
+		assertEquals(null, yard.rightChild.leftChild);
+		assertEquals(null, yard.rightChild.rightChild);
 	}
 }

@@ -60,11 +60,8 @@ public class Treap<Key extends Comparable<Key>, Val> {
 			Node<Key> newNode = new Node<Key>(key, 0, priority);
 			if (nodeKeyLessThanKey(currentNode, key)) {
 				currentNode.rightChild = newNode;
-
-
 			} else {
 				currentNode.leftChild = newNode;
-
 			}
 			return currentNode;
 		}
@@ -88,8 +85,6 @@ public class Treap<Key extends Comparable<Key>, Val> {
 				return currentNode;
 			}
 		}
-
-
 	} // recursiveInsert ()
 
 	public void insert(Key key) {
@@ -120,7 +115,6 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		} else {
 			if (node.leftChild == null) return false;
 			return search(node.leftChild, key);
-
 		}
 
 	} // search()
@@ -135,16 +129,12 @@ public class Treap<Key extends Comparable<Key>, Val> {
 			if (node.rightChild == null) return node;	// leaf reached
 			if (node.rightChild.priority > priority) return node.rightChild;
 			return searchWithPriority(node.rightChild, key, priority);
-
 		} else {
 			if (node.leftChild == null) return node;	// leaf reached
 			if (node.leftChild.priority > priority) return node.leftChild;
 			return searchWithPriority(node.leftChild, key, priority);
-
 		}
-
 	}
-
 
 
 	private boolean nodeKeyLessThanKey(Node<Key> root, Key key) {
