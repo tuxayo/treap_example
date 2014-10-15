@@ -126,29 +126,29 @@ public class TreapTest {
 	}
 
 	@Test
-	public void testInsert() {
+	public void testRandomOrderInsert() {
 		Treap<String, Integer> treap = new Treap<>(null);
-		treap.insertWithPriority("année-lumière", 51);
-		treap.insertWithPriority("coudée", 89);
+
+		treap.insertWithPriority("yard", 73);
 		treap.insertWithPriority("mille", 11);
+		treap.insertWithPriority("sillon", 65);
+		treap.insertWithPriority("zèbre", 300);
+		treap.insertWithPriority("année-lumière", 51);
 		treap.insertWithPriority("aaaa", 52);
 		treap.insertWithPriority("mètre", 23);
+		treap.insertWithPriority("coudée", 89);
 		treap.insertWithPriority("pied", 96);
-		treap.insertWithPriority("sillon", 65);
-		treap.insertWithPriority("yard", 73);
-		treap.insertWithPriority("zèbre", 300);
 
-		Node<String> root = treap.getNode();
-		assertEquals("mille", root.key);
-		assertEquals("mètre", root.rightChild.key);
-		assertEquals("année-lumière", root.leftChild.key);
+		assertEquals("mille", treap.getNode().key);
+		assertEquals("mètre", treap.getNode().rightChild.key);
+		assertEquals("année-lumière", treap.getNode().leftChild.key);
 
-		Node<String> aaaa = root.leftChild.leftChild;
+		Node<String> aaaa = treap.getNode().leftChild.leftChild;
 		assertEquals("aaaa", aaaa.key);
 		assertEquals(null, aaaa.leftChild);
 		assertEquals(null, aaaa.rightChild);
-		
-		Node<String> sillon = root.rightChild.rightChild;
+
+		Node<String> sillon = treap.getNode().rightChild.rightChild;
 		assertEquals("sillon", sillon.key);
 		assertEquals("pied", sillon.leftChild.key);
 		assertEquals("yard", sillon.rightChild.key);

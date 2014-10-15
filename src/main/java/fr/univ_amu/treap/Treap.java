@@ -34,75 +34,76 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		}
 	}
 
-	/* ********** INSERT ************************************/
-	public void insertWithPriority (Key key, int priority) {
-		Node<Key> nodeToInsert = new Node<Key>(key, 0, priority);	// à vérifier la value avec mister
+	public Node<Key> recursiveInsert (Key key, int priority, Node<Key> currentNode) {
 
 		if (this.IsEmpty()) {
-			this.node = nodeToInsert;
+			this.node = new Node<Key>(key, 0, priority);
 			this.node.leftChild = null;
 			this.node.rightChild = null;
-			return;
+			return this.node;
 		}
 
-		if (this.contains(key)) return;	// check if duplicates
+		if (currentNode.priority > priority) {
+			Pair<Treap<Key, Val>, Treap<Key, Val> > treaps = split(currentNode, key);
+			Node<Key> newNode = new Node<Key>(key, 0, priority);
 
-		// cas de la racine ayant une priorité supérieure
-		if (priority < this.node.priority) {
-			Node<Key> nodeSwap = this.node;
-			if (nodeKeyMoreThanKey(node, key)) {
-				this.node = nodeToInsert;
-				this.node.rightChild = nodeSwap;
-				return;
-
-
-			} else if (nodeKeyLessThanKey(node, key)) {
-				this.node = nodeToInsert;
-				this.node.leftChild = nodeSwap;
-				return;
+			if (treaps.getFirst().node != null) {
+				newNode.leftChild = treaps.getFirst().node;
 			}
+			if (treaps.getSecond().node != null) {
+				newNode.rightChild = treaps.getSecond().node;
+			}
+			return newNode;
+		}
 
-		} // FIN TRAITEMENT RACINE
+		if ( !currentNode.hasChild()) {
+			Node<Key> newNode = new Node<Key>(key, 0, priority);
+			if (nodeKeyLessThanKey(currentNode, key)) {
+				currentNode.rightChild = newNode;
 
-
-		Node<Key> nodeFound = searchWithPriority(this.node, key, priority);
-
-		if (nodeFound == null) return;	// cas où la clef est déjà présente
-
-
-		if ( ! nodeFound.hasChild()) {
-			if (nodeKeyLessThanKey(nodeFound, key)) {
-				nodeFound.rightChild = nodeToInsert;
 
 			} else {
-				nodeFound.leftChild = nodeToInsert;
+				currentNode.leftChild = newNode;
 
 			}
-			return;
+			return currentNode;
+		}
 
-		} // if
-
-		// case where we have to split
-		Pair<Treap<Key, Val>, Treap<Key, Val> > treaps = split(nodeFound, key);
-
-
-		if (nodeKeyLessThanKey(nodeFound, key)) {
-			nodeFound.rightChild = nodeToInsert;	//TODO:prob insertion de sillon après pied
-			nodeToInsert.rightChild = treaps.getSecond().node;
-
-		} else { // nodeKeyMoreThan
-			nodeToInsert.leftChild = treaps.getFirst().node;
-			//treaps.getSecond().node.leftChild = nodeToInsert;
-			nodeFound.leftChild = nodeToInsert;
-
+		if (nodeKeyMoreThanKey(currentNode, key)) {
+			if(currentNode.leftChild != null) {
+				currentNode.leftChild = recursiveInsert(key, priority, currentNode.leftChild);
+				return currentNode;
+			} else {
+				Node<Key> newNode = new Node<Key>(key, 0, priority);
+				currentNode.leftChild = newNode;
+				return currentNode;
+			}
+		} else {
+			if(currentNode.rightChild != null) {
+				currentNode.rightChild = recursiveInsert(key, priority, currentNode.rightChild);
+				return currentNode;
+			} else {
+				Node<Key> newNode = new Node<Key>(key, 0, priority);
+				currentNode.rightChild = newNode;
+				return currentNode;
+			}
 		}
 
 
-	} // insert ()
+	} // recursiveInsert ()
 
-	/*package*/ void insert(Key key) {
+	public void insert(Key key) {
 		int priority = (int)(Math.random()* Integer.MAX_VALUE);
 		insertWithPriority(key, priority);
+	}
+
+
+
+	/*package*/ void insertWithPriority(Key key, int priority) {
+		if (this.contains(key)) return; // not allow duplicates
+
+		this.node = recursiveInsert(key, priority, this.node);
+		return;
 	}
 
 	private boolean IsEmpty () {
@@ -125,20 +126,19 @@ public class Treap<Key extends Comparable<Key>, Val> {
 	} // search()
 
 	private boolean contains(Key key) {
+		if(this.node == null) return false;
 		return search(this.node, key);
 	}
 
 	public Node<Key> searchWithPriority (Node<Key> node, Key key, int priority) {
-		//if (this.contains(key)) return null;	// check if duplicates
-
 		if (nodeKeyLessThanKey(node, key)) {
 			if (node.rightChild == null) return node;	// leaf reached
-			if (node.rightChild.priority > priority) return node;
+			if (node.rightChild.priority > priority) return node.rightChild;
 			return searchWithPriority(node.rightChild, key, priority);
 
 		} else {
 			if (node.leftChild == null) return node;	// leaf reached
-			if (node.leftChild.priority > priority) return node;
+			if (node.leftChild.priority > priority) return node.leftChild;
 			return searchWithPriority(node.leftChild, key, priority);
 
 		}
