@@ -46,7 +46,7 @@ public class Treap<Key extends Comparable<Key>, Val> {
 			return createRoot(key, priority);
 		}
 
-		if (currentNode.priority > priority) {
+		if (currentNode.priorityIsGreaterThan(priority)) {
 			return insertInMiddleOfTreap(key, priority, currentNode);
 		}
 

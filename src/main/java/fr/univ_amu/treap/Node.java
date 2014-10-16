@@ -39,4 +39,12 @@ public class Node<Key extends Comparable<Key>> {
 	public boolean hasChild () {
 		return this.rightChild != null || this.leftChild != null;
 	}
+
+	public boolean priorityIsLowerThan(int priority) {
+		return this.priority < priority;
+	}
+
+	public boolean priorityIsGreaterThan(int priority) {
+		return this.priority > priority;
+	}
 }
