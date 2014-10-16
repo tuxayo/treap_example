@@ -3,7 +3,7 @@ package fr.univ_amu.treap;
 import java.lang.Math;
 
 public class Treap<Key extends Comparable<Key>, Val> {
-	private Node<Key> node;
+	/*package*/ Node<Key> node;
 
 	public Treap(Node<Key> node) {
 		this.node = node;
@@ -191,9 +191,5 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		}
 
 	} // search()
-
-	public Node<Key> getNode() {
-		return node;
-	}
 
 }
