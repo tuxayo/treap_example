@@ -2,8 +2,9 @@ Treap example
 =============
 
 ### Description:
-Using a [treap](https://en.wikipedia.org/wiki/Treap) the main application (when finished) will read a text and return the number of distinct words read (case incentive) and the le most used word of at least 6 characters.
+Using a [treap](https://en.wikipedia.org/wiki/Treap) the main application (when finished) will read a text and return the number of distinct words read (case incentive) and the most used word of at least 6 characters.
 
+[![Build Status](https://travis-ci.org/tuxayo/treap_example.svg?branch=master)](https://travis-ci.org/tuxayo/treap_example) (Automated tests)
 
 This project use Apache Maven to manage testing, building and running
 
