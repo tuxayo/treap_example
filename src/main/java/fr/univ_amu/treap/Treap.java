@@ -5,10 +5,6 @@ import java.lang.Math;
 public class Treap<Key extends Comparable<Key>, Val> {
 	private Node<Key> node;
 
-	public Node<Key> getNode() {
-		return node;
-	}
-
 	public Treap(Node<Key> node) {
 		this.node = node;
 	}
@@ -33,7 +29,19 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		}
 	}
 
-	public Node<Key> recursiveInsert (Key key, int priority, Node<Key> currentNode) {
+	public void insert(Key key) {
+		int priority = (int)(Math.random()* Integer.MAX_VALUE);
+		insertWithPriority(key, priority);
+	}
+
+	/*package*/ void insertWithPriority(Key key, int priority) {
+		if (this.contains(key)) return; // not allow duplicates
+
+		this.node = recursiveInsert(key, priority, this.node);
+		return;
+	}
+
+	private Node<Key> recursiveInsert (Key key, int priority, Node<Key> currentNode) {
 		if (this.IsEmpty()) {
 			return createRoot(key, priority);
 		}
@@ -124,20 +132,6 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		return newNode;
 	}
 
-	public void insert(Key key) {
-		int priority = (int)(Math.random()* Integer.MAX_VALUE);
-		insertWithPriority(key, priority);
-	}
-
-
-
-	/*package*/ void insertWithPriority(Key key, int priority) {
-		if (this.contains(key)) return; // not allow duplicates
-
-		this.node = recursiveInsert(key, priority, this.node);
-		return;
-	}
-
 	private boolean IsEmpty () {
 		return this.node == null;
 	}
@@ -161,25 +155,16 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		return search(this.node, key);
 	}
 
-	private Node<Key> searchWithPriority (Node<Key> node, Key key, int priority) {
-		if (nodeKeyLessThanKey(node, key)) {
-			if (node.rightChild == null) return node;	// leaf reached
-			if (node.rightChild.priority > priority) return node.rightChild;
-			return searchWithPriority(node.rightChild, key, priority);
-		} else {
-			if (node.leftChild == null) return node;	// leaf reached
-			if (node.leftChild.priority > priority) return node.leftChild;
-			return searchWithPriority(node.leftChild, key, priority);
-		}
-	}
-
-
 	private boolean nodeKeyLessThanKey(Node<Key> root, Key key) {
 		return root.key.compareTo(key) < 0;
 	}
 
 	private boolean nodeKeyMoreThanKey(Node<Key> root, Key key) {
 		return root.key.compareTo(key) > 0;
+	}
+
+	public Node<Key> getNode() {
+		return node;
 	}
 
 }
