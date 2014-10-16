@@ -51,23 +51,39 @@ public class Treap<Key extends Comparable<Key>, Val> {
 
 	private Node<Key> searchDeeper(Key key, int priority, Node<Key> currentNode) {
 		if (nodeKeyMoreThanKey(currentNode, key)) {
-			if(currentNode.leftChild != null) {
-				return continueRecursionLeft(key, priority, currentNode);
+			if(currentNode.leftChild == null) {
+				return createLeftChild(key, priority, currentNode);
 			} else {
-				Node<Key> newNode = new Node<Key>(key, 0, priority);
-				currentNode.leftChild = newNode;
-				return currentNode;
+				return continueRecursionLeft(key, priority, currentNode); // TODO: use refactored version when mysterious bug is fixed
+//				return continueRecursion(key, priority, currentNode, currentNode.leftChild);
 			}
 		} else {
-			if(currentNode.rightChild != null) {
-				return continueRecursionRight(key, priority, currentNode);
+			if(currentNode.rightChild == null) {
+				return createRightChild(key, priority, currentNode);
 			} else {
-				Node<Key> newNode = new Node<Key>(key, 0, priority);
-				currentNode.rightChild = newNode;
-				return currentNode;
+				return continueRecursionRight(key, priority, currentNode); // TODO: use refactored version when mysterious bug is fixed
+//				return continueRecursion(key, priority, currentNode, currentNode.rightChild);
 			}
 		}
 	}
+
+	private Node<Key> createLeftChild(Key key, int priority, Node<Key> currentNode) {
+		Node<Key> newNode = new Node<Key>(key, 0, priority);
+		currentNode.leftChild = newNode;
+		return currentNode;
+	}
+
+	private Node<Key> createRightChild(Key key, int priority, Node<Key> currentNode) {
+		Node<Key> newNode = new Node<Key>(key, 0, priority);
+		currentNode.rightChild = newNode;
+		return currentNode;
+	}
+
+	// TODO: bug: it doesn't work for right child
+//	private Node<Key> continueRecursion(Key key, int priority, Node<Key> currentNode, Node<Key> currentNodeChild) {
+//		currentNodeChild = recursiveInsert(key, priority, currentNodeChild);
+//		return currentNode;
+//	}
 
 	private Node<Key> continueRecursionLeft(Key key, int priority, Node<Key> currentNode) {
 		currentNode.leftChild = recursiveInsert(key, priority, currentNode.leftChild);
@@ -102,8 +118,7 @@ public class Treap<Key extends Comparable<Key>, Val> {
 
 		if (treaps.getFirst().node != null) {
 			newNode.leftChild = treaps.getFirst().node;
-		}
-		if (treaps.getSecond().node != null) {
+		} else {
 			newNode.rightChild = treaps.getSecond().node;
 		}
 		return newNode;
@@ -146,7 +161,7 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		return search(this.node, key);
 	}
 
-	public Node<Key> searchWithPriority (Node<Key> node, Key key, int priority) {
+	private Node<Key> searchWithPriority (Node<Key> node, Key key, int priority) {
 		if (nodeKeyLessThanKey(node, key)) {
 			if (node.rightChild == null) return node;	// leaf reached
 			if (node.rightChild.priority > priority) return node.rightChild;

@@ -39,5 +39,4 @@ public class Node<Key extends Comparable<Key>> {
 	public boolean hasChild () {
 		return this.rightChild != null || this.leftChild != null;
 	}
-
 }
