@@ -14,7 +14,6 @@ public class Treap<Key extends Comparable<Key>, Val> {
 	}
 
 	public Pair<Treap<Key, Val>, Treap<Key, Val>> split(Node<Key> node, Key key) {
-
 		if (node == null)
 			return new Pair<>(new Treap<>(null), new Treap<>(null));
 
@@ -35,41 +34,25 @@ public class Treap<Key extends Comparable<Key>, Val> {
 	}
 
 	public Node<Key> recursiveInsert (Key key, int priority, Node<Key> currentNode) {
-
 		if (this.IsEmpty()) {
-			this.node = new Node<Key>(key, 0, priority);
-			this.node.leftChild = null;
-			this.node.rightChild = null;
-			return this.node;
+			return createRoot(key, priority);
 		}
 
 		if (currentNode.priority > priority) {
-			Pair<Treap<Key, Val>, Treap<Key, Val> > treaps = split(currentNode, key);
-			Node<Key> newNode = new Node<Key>(key, 0, priority);
-
-			if (treaps.getFirst().node != null) {
-				newNode.leftChild = treaps.getFirst().node;
-			}
-			if (treaps.getSecond().node != null) {
-				newNode.rightChild = treaps.getSecond().node;
-			}
-			return newNode;
+			return insertInMiddleOfTreap(key, priority, currentNode);
 		}
 
 		if ( !currentNode.hasChild()) {
-			Node<Key> newNode = new Node<Key>(key, 0, priority);
-			if (nodeKeyLessThanKey(currentNode, key)) {
-				currentNode.rightChild = newNode;
-			} else {
-				currentNode.leftChild = newNode;
-			}
-			return currentNode;
+			return insertLeaf(key, priority, currentNode);
 		}
 
+		return searchDeeper(key, priority, currentNode);
+	} // recursiveInsert ()
+
+	private Node<Key> searchDeeper(Key key, int priority, Node<Key> currentNode) {
 		if (nodeKeyMoreThanKey(currentNode, key)) {
 			if(currentNode.leftChild != null) {
-				currentNode.leftChild = recursiveInsert(key, priority, currentNode.leftChild);
-				return currentNode;
+				return continueRecursionLeft(key, priority, currentNode);
 			} else {
 				Node<Key> newNode = new Node<Key>(key, 0, priority);
 				currentNode.leftChild = newNode;
@@ -77,15 +60,54 @@ public class Treap<Key extends Comparable<Key>, Val> {
 			}
 		} else {
 			if(currentNode.rightChild != null) {
-				currentNode.rightChild = recursiveInsert(key, priority, currentNode.rightChild);
-				return currentNode;
+				return continueRecursionRight(key, priority, currentNode);
 			} else {
 				Node<Key> newNode = new Node<Key>(key, 0, priority);
 				currentNode.rightChild = newNode;
 				return currentNode;
 			}
 		}
-	} // recursiveInsert ()
+	}
+
+	private Node<Key> continueRecursionLeft(Key key, int priority, Node<Key> currentNode) {
+		currentNode.leftChild = recursiveInsert(key, priority, currentNode.leftChild);
+		return currentNode;
+	}
+
+	private Node<Key> continueRecursionRight(Key key, int priority, Node<Key> currentNode) {
+		currentNode.rightChild = recursiveInsert(key, priority, currentNode.rightChild);
+		return currentNode;
+	}
+
+	private Node<Key> createRoot(Key key, int priority) {
+		this.node = new Node<Key>(key, 0, priority);
+		this.node.leftChild = null;
+		this.node.rightChild = null;
+		return this.node;
+	}
+
+	private Node<Key> insertLeaf(Key key, int priority, Node<Key> currentNode) {
+		Node<Key> newNode = new Node<Key>(key, 0, priority);
+		if (nodeKeyLessThanKey(currentNode, key)) {
+			currentNode.rightChild = newNode;
+		} else {
+			currentNode.leftChild = newNode;
+		}
+		return currentNode;
+	}
+
+	private Node<Key> insertInMiddleOfTreap(Key key, int priority, Node<Key> currentNode) {
+		Pair<Treap<Key, Val>, Treap<Key, Val> > treaps = split(currentNode, key);
+		Node<Key> newNode = new Node<Key>(key, 0, priority);
+
+		if (treaps.getFirst().node != null) {
+			newNode.leftChild = treaps.getFirst().node;
+		}
+		if (treaps.getSecond().node != null) {
+			newNode.rightChild = treaps.getSecond().node;
+		}
+		return newNode;
+	}
 
 	public void insert(Key key) {
 		int priority = (int)(Math.random()* Integer.MAX_VALUE);
