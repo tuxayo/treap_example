@@ -47,4 +47,12 @@ public class Node<Key extends Comparable<Key>> {
 	public boolean priorityIsGreaterThan(int priority) {
 		return this.priority > priority;
 	}
+
+	public boolean keyMoreThan(Key key) {
+		return this.key.compareTo(key) > 0;
+	}
+
+	public boolean keyLessThan(Key key) {
+		return this.key.compareTo(key) < 0;
+	}
 }

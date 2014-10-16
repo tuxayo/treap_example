@@ -193,4 +193,24 @@ public class TreapTest {
 		assertEquals(null, yard.rightChild.leftChild);
 		assertEquals(null, yard.rightChild.rightChild);
 	}
+
+	@Test
+	public void testMerge() {
+		Treap<String, Integer> treap1 = new Treap<>(null);
+		Treap<String, Integer> treap2 = new Treap<>(null);
+
+
+		treap1.insertWithPriority("mille", 11);
+		treap1.insertWithPriority("année-lumière", 51);
+		treap1.insertWithPriority("coudée", 89);
+		treap1.insertWithPriority("mètre", 23);
+		treap1.insertWithPriority("pied", 96);
+
+		treap2.insertWithPriority("aaa", 65);
+		treap2.insertWithPriority("yard", 73);
+
+		Treap<String, Integer> treapResult = treap1.merge(treap2);
+
+
+	}
 }
