@@ -323,9 +323,14 @@ public class TreapTest {
 		assertEquals("pied", treap.node.rightChild.rightChild.leftChild.key);
 	}
 
-	@Test@Ignore // TODO insert value and find it
+	@Test // TODO insert value and find it
 	public void testFind() throws Exception {
 		Treap<String, Integer> treap = new Treap<>(null);
-//		treap.insert(key, value);
+		treap.insert("sillon", 65);
+		treap.insert("yard", -42);
+		treap.insert("as you like...", 0);
+		treap.insert("pied", 96);
+
+		assertEquals(0, treap.find("as you like..."));
 	}
 }

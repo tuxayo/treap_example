@@ -29,6 +29,54 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		}
 	}
 
+	public void insert(Key key, Val value) {
+		int priority = (int)(Math.random()* Integer.MAX_VALUE);
+		insertWithPriority(key, value, priority);
+	}
+
+	public boolean remove(Key key) {
+		if(!contains(key)) return false;
+		if (node.key == key) { // TODO write test remove root
+			Treap<Key, Val> leftSubTree = new Treap<>(this.node.leftChild);
+			Treap<Key, Val> rightSubTree = new Treap<>(this.node.rightChild);
+
+			this.node = leftSubTree.merge(rightSubTree).node;
+			return true;
+		}
+
+		Node<Key, Val> nodeFound = findFatherOfNodeToDelete(key);
+
+
+		if (nodeFound.leftChild != null && nodeFound.leftChild.key.compareTo(key) == 0) {
+			Treap<Key, Val> leftSubTreeOfDeletedNode = new Treap<>(nodeFound.leftChild.leftChild);
+			Treap<Key, Val> rightSubTreeOfDeletedNode = new Treap<>(nodeFound.leftChild.rightChild);
+			nodeFound.leftChild = leftSubTreeOfDeletedNode.merge(rightSubTreeOfDeletedNode).node;
+		} else {
+			Treap<Key, Val> leftSubTreeOfDeletedNode = new Treap<>(nodeFound.rightChild.leftChild);
+			Treap<Key, Val> rightSubTreeOfDeletedNode = new Treap<>(nodeFound.rightChild.rightChild);
+			nodeFound.rightChild = leftSubTreeOfDeletedNode.merge(rightSubTreeOfDeletedNode).node;
+		}
+
+		return true;
+
+	}
+
+	public boolean contains(Key key) {
+		if(this.node == null) return false;
+		return search(this.node, key);
+	}
+
+	public int countNodes() {
+		if (this.node == null) return 0;
+		return this.node.countNodes(node);
+	}
+
+
+	public Object find(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	// default access right only for tests
 	Treap<Key, Val> merge(Treap<Key, Val> otherTreap) throws MergeFoundDuplicateKeysException {
 		// if one or both treaps are empty
@@ -47,6 +95,22 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		}
 	}
 
+	void insert(Key key) { // only for tests
+		insert(key, null);
+	}
+
+	void insertWithPriority(Key key, Val value, int priority) { // only for tests
+		if (this.contains(key)) return; // not allow duplicates
+
+		this.node = recursiveInsert(key, value, priority, this.node);
+		return;
+	}
+
+	void insertWithPriority(Key key, int priority) { // only for tests
+		insertWithPriority(key, null, priority);
+	}
+
+
 	private Treap<Key, Val> selectChildAndMerge(Treap<Key, Val> treapWithGreaterPriority) throws MergeFoundDuplicateKeysException {
 		Treap<Key, Val> selectedChild = null;
 
@@ -64,38 +128,6 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		}
 		return this;
 	}
-
-	public void insert(Key key, Val value) {
-		int priority = (int)(Math.random()* Integer.MAX_VALUE);
-		insertWithPriority(key, value, priority);
-	}
-
-	void insert(Key key) { // only for tests
-		insert(key, null);
-	}
-
-	public boolean contains(Key key) {
-		if(this.node == null) return false;
-		return search(this.node, key);
-	}
-
-	public int countNodes() {
-		if (this.node == null) return 0;
-		return this.node.countNodes(node);
-	}
-
-
-	void insertWithPriority(Key key, Val value, int priority) { // only for tests
-		if (this.contains(key)) return; // not allow duplicates
-
-		this.node = recursiveInsert(key, value, priority, this.node);
-		return;
-	}
-
-	void insertWithPriority(Key key, int priority) { // only for tests
-		insertWithPriority(key, null, priority);
-	}
-
 
 	private Node<Key, Val> recursiveInsert (Key key, Val value, int priority, Node<Key, Val> currentNode) {
 		if (this.IsEmpty()) {
@@ -205,34 +237,6 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		}
 
 	} // search()
-
-	public boolean remove(Key key) {
-		if(!contains(key)) return false;
-		if (node.key == key) { // TODO write test remove root
-			Treap<Key, Val> leftSubTree = new Treap<>(this.node.leftChild);
-			Treap<Key, Val> rightSubTree = new Treap<>(this.node.rightChild);
-
-			this.node = leftSubTree.merge(rightSubTree).node;
-			return true;
-		}
-
-		Node<Key, Val> nodeFound = findFatherOfNodeToDelete(key);
-
-
-		if (nodeFound.leftChild != null && nodeFound.leftChild.key.compareTo(key) == 0) {
-			Treap<Key, Val> leftSubTreeOfDeletedNode = new Treap<>(nodeFound.leftChild.leftChild);
-			Treap<Key, Val> rightSubTreeOfDeletedNode = new Treap<>(nodeFound.leftChild.rightChild);
-			nodeFound.leftChild = leftSubTreeOfDeletedNode.merge(rightSubTreeOfDeletedNode).node;
-		} else {
-			Treap<Key, Val> leftSubTreeOfDeletedNode = new Treap<>(nodeFound.rightChild.leftChild);
-			Treap<Key, Val> rightSubTreeOfDeletedNode = new Treap<>(nodeFound.rightChild.rightChild);
-			nodeFound.rightChild = leftSubTreeOfDeletedNode.merge(rightSubTreeOfDeletedNode).node;
-		}
-
-		return true;
-
-	}
-
 
 	private Node<Key, Val> findFatherOfNodeToDelete(Key key) {
 		if (oneChildMatches(key))
