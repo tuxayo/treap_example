@@ -29,7 +29,7 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		}
 	}
 
-	public Treap<Key, Val> merge(Treap<Key, Val> otherTreap) {
+	public Treap<Key, Val> merge(Treap<Key, Val> otherTreap) throws MergeFoundDuplicateKeysException {
 		// if one or both treaps are empty
 		if(this.node == null) return otherTreap;
 		if(otherTreap.node == null) return this;
@@ -46,17 +46,20 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		}
 	}
 
-	private Treap<Key, Val> selectChildAndMerge(Treap<Key, Val> treapWithGreaterPriority) {
+	private Treap<Key, Val> selectChildAndMerge(Treap<Key, Val> treapWithGreaterPriority) throws MergeFoundDuplicateKeysException {
 		Treap<Key, Val> selectedChild = null;
 
 		if(this.node.keyLessThan(treapWithGreaterPriority.node.key)) {
 			selectedChild = new Treap<>(node.rightChild);
 			Treap<Key, Val> mergeResult = selectedChild.merge(treapWithGreaterPriority);
 			this.node.rightChild = mergeResult.node;
-		} else { // TODO equal keys problem?
+		} else if(this.node.keyMoreThan(treapWithGreaterPriority.node.key)) {
 			selectedChild = new Treap<>(node.leftChild);
 			Treap<Key, Val> mergeResult = selectedChild.merge(treapWithGreaterPriority);
 			this.node.leftChild = mergeResult.node;
+		} else {
+			throw new MergeFoundDuplicateKeysException("Duplicate key between the two Treap to merge " +
+					"and cannot merge without loosing data, duplicate key: " + this.node.key);
 		}
 		return this;
 	}

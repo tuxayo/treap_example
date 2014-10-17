@@ -215,6 +215,39 @@ public class TreapTest {
 		assertEquals("yard", sillion.getRightChild().key);
 	}
 
+	@Test(expected = MergeFoundDuplicateKeysException.class)
+	public void testMergeException() throws Exception {
+		Treap<String, Integer> treap1 = new Treap<>(null);
+		treap1.insert("foo");
+		treap1.insert("bar");
+		treap1.insert("foobar");
+
+		Treap<String, Integer> treap2 = new Treap<>(null);
+		treap2.insert("foobar");
+		treap2.insert("baz");
+
+		treap1.merge(treap2);
+	}
+
+	@Test
+	public void testMergeExceptionMessage() throws Exception {
+		Treap<String, Integer> treap1 = new Treap<>(null);
+		treap1.insert("foo");
+		treap1.insert("bar");
+		treap1.insert("foobar");
+
+		Treap<String, Integer> treap2 = new Treap<>(null);
+		treap2.insert("foobar");
+		treap2.insert("baz");
+		try {
+			treap1.merge(treap2);
+		} catch (MergeFoundDuplicateKeysException e) {
+			String message = "Duplicate key between the two Treap to merge " +
+					"and cannot merge without loosing data, duplicate key: foobar";
+			assertEquals(message, e.getMessage());
+		}
+	}
+
 	@Test
 	public void testCountNodes() throws Exception {
 		Treap<String, Integer> treap = new Treap<>(null);
