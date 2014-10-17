@@ -72,15 +72,17 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		return search(this.node, key);
 	}
 
+	public int countNodes() {
+		if (this.node == null) return 0;
+		return this.node.countNodes(node);
+	}
+
+
 	/*package*/ void insertWithPriority(Key key, int priority) {
 		if (this.contains(key)) return; // not allow duplicates
 
 		this.node = recursiveInsert(key, priority, this.node);
 		return;
-	}
-
-	private boolean bothTreapsAreEmpty(Treap<Key, Val> treap, Treap<Key, Val> otherTreap) {
-		return treap.node == null && otherTreap.node == null;
 	}
 
 	private Node<Key> recursiveInsert (Key key, int priority, Node<Key> currentNode) {

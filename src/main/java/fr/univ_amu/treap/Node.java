@@ -55,4 +55,9 @@ public class Node<Key extends Comparable<Key>> {
 	public boolean keyLessThan(Key key) {
 		return this.key.compareTo(key) < 0;
 	}
+
+	public int countNodes(Node<Key> node) {
+		if (node == null) return 0;
+		return (countNodes(node.getLeftChild()) + countNodes(node.getRightChild()) + 1);
+	}
 }
