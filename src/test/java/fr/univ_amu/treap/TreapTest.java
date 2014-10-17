@@ -9,9 +9,9 @@ public class TreapTest {
 
 	@Test
 	public void testSimpleSplitWithThreeNodes() {
-		Node<String> nodeYard = new Node<>("yard");
-		Node<String> nodePied = new Node<>("pied");
-		Node<String> nodeSillon = new Node<>("sillon");
+		Node<String, Integer> nodeYard = new Node<>("yard");
+		Node<String, Integer> nodePied = new Node<>("pied");
+		Node<String, Integer> nodeSillon = new Node<>("sillon");
 		nodeSillon.setLeftChild(nodePied);
 		nodeSillon.setRightChild(nodeYard);
 		Treap<String, Integer> treap = new Treap<>(nodeSillon);
@@ -29,9 +29,9 @@ public class TreapTest {
 
 	@Test
 	public void testSimpleSplitWithThreeNodes2() {
-		Node<String> nodeYard = new Node<>("yard");
-		Node<String> nodePied = new Node<>("pied");
-		Node<String> nodeSillon = new Node<>("sillon");
+		Node<String, Integer> nodeYard = new Node<>("yard");
+		Node<String, Integer> nodePied = new Node<>("pied");
+		Node<String, Integer> nodeSillon = new Node<>("sillon");
 		nodeSillon.setLeftChild(nodePied);
 		nodeSillon.setRightChild(nodeYard);
 		Treap<String, Integer> treap = new Treap<>(nodeSillon);
@@ -42,22 +42,22 @@ public class TreapTest {
 		assertEquals("yard", nodeSillon.rightChild.key);
 		assertEquals(2, splitResult.getSecond().countNodes());
 
-		Node<String> newNodePied = splitResult.getFirst().node;
+		Node<String, Integer> newNodePied = splitResult.getFirst().node;
 		assertEquals("pied", newNodePied.key);
 		assertEquals(1, splitResult.getFirst().countNodes());
 	}
 
 	@Test
 	public void testSimpleSplitWithThreeNodes3() {
-		Node<String> nodeYard = new Node<>("yard");
-		Node<String> nodePied = new Node<>("pied");
-		Node<String> nodeSillon = new Node<>("sillon");
+		Node<String, Integer> nodeYard = new Node<>("yard");
+		Node<String, Integer> nodePied = new Node<>("pied");
+		Node<String, Integer> nodeSillon = new Node<>("sillon");
 		nodeSillon.setLeftChild(nodePied);
 		nodeSillon.setRightChild(nodeYard);
 		Treap<String, Integer> treap = new Treap<>(nodeSillon);
 		Pair<Treap<String, Integer>, Treap<String, Integer>> splitResult = treap.split(treap.node, "aaaaaa");
 
-		Node<String> nodeNull = splitResult.getFirst().node;
+		Node<String, Integer> nodeNull = splitResult.getFirst().node;
 		assertEquals(null, nodeNull);
 		assertEquals(0, splitResult.getFirst().countNodes());
 
@@ -70,10 +70,10 @@ public class TreapTest {
 
 	@Test
 	public void testSplitComplexTree() {
-		Node<String> nodeMille = new Node<>("mille");
-		Node<String> nodeAnnee = new Node<> ("année");
-		Node<String> nodeCoudee = new Node<> ("coudée");
-		Node<String> nodeMetre = new Node<> ("mètre");
+		Node<String, Integer> nodeMille = new Node<>("mille");
+		Node<String, Integer> nodeAnnee = new Node<> ("année");
+		Node<String, Integer> nodeCoudee = new Node<> ("coudée");
+		Node<String, Integer> nodeMetre = new Node<> ("mètre");
 
 		nodeMille.leftChild = nodeAnnee;
 		nodeMille.rightChild = nodeMetre;
@@ -95,10 +95,10 @@ public class TreapTest {
 
 	@Test
 	public void testSplitOnRootComplexTree() { // root should not be in result
-		Node<String> nodeMille = new Node<>("mille");
-		Node<String> nodeAnnee = new Node<> ("année");
-		Node<String> nodeCoudee = new Node<> ("coudée");
-		Node<String> nodeMetre = new Node<> ("mètre");
+		Node<String, Integer> nodeMille = new Node<>("mille");
+		Node<String, Integer> nodeAnnee = new Node<> ("année");
+		Node<String, Integer> nodeCoudee = new Node<> ("coudée");
+		Node<String, Integer> nodeMetre = new Node<> ("mètre");
 
 		nodeMille.leftChild = nodeAnnee;
 		nodeMille.rightChild = nodeMetre;
@@ -144,13 +144,13 @@ public class TreapTest {
 		assertEquals("mètre", treap.node.rightChild.key);
 		assertEquals("année-lumière", treap.node.leftChild.key);
 
-		Node<String> aaaa = treap.node.leftChild.leftChild;
+		Node<String, Integer> aaaa = treap.node.leftChild.leftChild;
 		assertEquals("aaaa", aaaa.key);
 
-		Node<String> sillon = treap.node.rightChild.rightChild;
+		Node<String, Integer> sillon = treap.node.rightChild.rightChild;
 		assertEquals("sillon", sillon.key);
 		assertEquals("pied", sillon.leftChild.key);
-		Node<String> yard = sillon.rightChild;
+		Node<String, Integer> yard = sillon.rightChild;
 		assertEquals("yard", yard.key);
 		assertEquals("zèbre", yard.rightChild.key);
 
@@ -175,13 +175,13 @@ public class TreapTest {
 		assertEquals("mètre", treap.node.rightChild.key);
 		assertEquals("année-lumière", treap.node.leftChild.key);
 
-		Node<String> aaaa = treap.node.leftChild.leftChild;
+		Node<String, Integer> aaaa = treap.node.leftChild.leftChild;
 		assertEquals("aaaa", aaaa.key);
 
-		Node<String> sillon = treap.node.rightChild.rightChild;
+		Node<String, Integer> sillon = treap.node.rightChild.rightChild;
 		assertEquals("sillon", sillon.key);
 		assertEquals("pied", sillon.leftChild.key);
-		Node<String> yard = sillon.rightChild;
+		Node<String, Integer> yard = sillon.rightChild;
 		assertEquals("yard", yard.key);
 		assertEquals("zèbre", yard.rightChild.key);
 
@@ -209,7 +209,7 @@ public class TreapTest {
 		assertEquals("coudée", treapResult.node.getLeftChild().getRightChild().key);
 
 		assertEquals("mètre", treapResult.node.getRightChild().key);
-		Node<String> sillion = treapResult.node.getRightChild().getRightChild();
+		Node<String, Integer> sillion = treapResult.node.getRightChild().getRightChild();
 		assertEquals("sillion", sillion.key);
 		assertEquals("pied", sillion.getLeftChild().key);
 		assertEquals("yard", sillion.getRightChild().key);
@@ -323,9 +323,9 @@ public class TreapTest {
 		assertEquals("pied", treap.node.rightChild.rightChild.leftChild.key);
 	}
 
-	@Test
+	@Test@Ignore // TODO insert value and find it
 	public void testFind() throws Exception {
 		Treap<String, Integer> treap = new Treap<>(null);
-//		treap.insert(key)
+//		treap.insert(key, value);
 	}
 }

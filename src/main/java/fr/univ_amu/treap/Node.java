@@ -1,20 +1,20 @@
 package fr.univ_amu.treap;
 
-public class Node<Key extends Comparable<Key>> {
+public class Node<Key extends Comparable<Key>, Val> {
 	Key key;
 
-	/*package*/ Node<Key> leftChild;
-	/*package*/ Node<Key> rightChild;
-	/*package*/ int value;
+	/*package*/ Node<Key, Val> leftChild;
+	/*package*/ Node<Key, Val> rightChild;
+	/*package*/ Val value;
 	int priority;
 
-	Node(Key key, int value, int priority) {
+	Node(Key key, Val value, int priority) {
 		this.key = key;
 		this.value = value;
 		this.priority = priority;
 	}
 
-	Node(Key key, int value) { // for test purpose
+	Node(Key key, Val value) { // for test purpose
 		this.key = key;
 		this.value = value;
 		this.priority = 0;
@@ -22,23 +22,23 @@ public class Node<Key extends Comparable<Key>> {
 
 	Node(Key key) { // for test purpose
 		this.key = key;
-		this.value = 0;
+		this.value = null;
 		this.priority = 0;
 	}
 
-	public Node<Key> getLeftChild() {
+	public Node<Key, Val> getLeftChild() {
 		return leftChild;
 	}
 
-	public void setLeftChild(Node<Key> leftChild) {
+	public void setLeftChild(Node<Key, Val> leftChild) {
 		this.leftChild = leftChild;
 	}
 
-	public Node<Key> getRightChild() {
+	public Node<Key, Val> getRightChild() {
 		return rightChild;
 	}
 
-	public void setRightChild(Node<Key> rightChild) {
+	public void setRightChild(Node<Key, Val> rightChild) {
 		this.rightChild = rightChild;
 	}
 
@@ -62,7 +62,7 @@ public class Node<Key extends Comparable<Key>> {
 		return this.key.compareTo(key) < 0;
 	}
 
-	public int countNodes(Node<Key> node) {
+	public int countNodes(Node<Key, Val> node) {
 		if (node == null) return 0;
 		return (countNodes(node.getLeftChild()) + countNodes(node.getRightChild()) + 1);
 	}

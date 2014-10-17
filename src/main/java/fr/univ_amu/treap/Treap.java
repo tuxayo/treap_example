@@ -3,13 +3,13 @@ package fr.univ_amu.treap;
 import java.lang.Math;
 
 public class Treap<Key extends Comparable<Key>, Val> {
-	/*package*/ Node<Key> node;
+	Node<Key, Val> node;  // default access right only for tests
 
-	public Treap(Node<Key> node) {
+	public Treap(Node<Key, Val> node) {
 		this.node = node;
 	}
 
-	public Pair<Treap<Key, Val>, Treap<Key, Val>> split(Node<Key> node, Key key) {
+	public Pair<Treap<Key, Val>, Treap<Key, Val>> split(Node<Key, Val> node, Key key) {
 		if (node == null)
 			return new Pair<>(new Treap<>(null), new Treap<>(null));
 
@@ -29,7 +29,8 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		}
 	}
 
-	/*package*/ Treap<Key, Val> merge(Treap<Key, Val> otherTreap) throws MergeFoundDuplicateKeysException {
+	// default access right only for tests
+	Treap<Key, Val> merge(Treap<Key, Val> otherTreap) throws MergeFoundDuplicateKeysException {
 		// if one or both treaps are empty
 		if(this.node == null) return otherTreap;
 		if(otherTreap.node == null) return this;
@@ -64,9 +65,13 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		return this;
 	}
 
-	public void insert(Key key) {
+	public void insert(Key key, Val value) {
 		int priority = (int)(Math.random()* Integer.MAX_VALUE);
-		insertWithPriority(key, priority);
+		insertWithPriority(key, value, priority);
+	}
+
+	void insert(Key key) { // only for tests
+		insert(key, null);
 	}
 
 	public boolean contains(Key key) {
@@ -80,84 +85,89 @@ public class Treap<Key extends Comparable<Key>, Val> {
 	}
 
 
-	/*package*/ void insertWithPriority(Key key, int priority) {
+	void insertWithPriority(Key key, Val value, int priority) { // only for tests
 		if (this.contains(key)) return; // not allow duplicates
 
-		this.node = recursiveInsert(key, priority, this.node);
+		this.node = recursiveInsert(key, value, priority, this.node);
 		return;
 	}
 
-	private Node<Key> recursiveInsert (Key key, int priority, Node<Key> currentNode) {
+	void insertWithPriority(Key key, int priority) { // only for tests
+		insertWithPriority(key, null, priority);
+	}
+
+
+	private Node<Key, Val> recursiveInsert (Key key, Val value, int priority, Node<Key, Val> currentNode) {
 		if (this.IsEmpty()) {
-			return createRoot(key, priority);
+			return createRoot(key, value, priority);
 		}
 
 		if (currentNode.priorityIsGreaterThan(priority)) {
-			return insertInMiddleOfTreap(key, priority, currentNode);
+			return insertInMiddleOfTreap(key, value, priority, currentNode);
 		}
 
 		if ( !currentNode.hasChild()) {
-			return insertLeaf(key, priority, currentNode);
+			return insertLeaf(key, value, priority, currentNode);
 		}
 
-		return searchDeeper(key, priority, currentNode);
+		return searchDeeper(key, value, priority, currentNode);
 	} // recursiveInsert ()
 
-	private Node<Key> searchDeeper(Key key, int priority, Node<Key> currentNode) {
+	private Node<Key, Val> searchDeeper(Key key, Val value, int priority, Node<Key, Val> currentNode) {
 		if (currentNode.keyLessThan(key)) {
 			if(currentNode.rightChild == null) {
-				return createRightChild(key, priority, currentNode);
+				return createRightChild(key, value, priority, currentNode);
 			} else {
-				return continueRecursionRight(key, priority, currentNode); // TODO: use refactored version when mysterious bug is fixed
+				return continueRecursionRight(key, value, priority, currentNode); // TODO: use refactored version when mysterious bug is fixed
 //				return continueRecursion(key, priority, currentNode, currentNode.rightChild);
 			}
 		} else {
 			if(currentNode.leftChild == null) {
-				return createLeftChild(key, priority, currentNode);
+				return createLeftChild(key, value, priority, currentNode);
 			} else {
-				return continueRecursionLeft(key, priority, currentNode); // TODO: use refactored version when mysterious bug is fixed
+				return continueRecursionLeft(key, value, priority, currentNode); // TODO: use refactored version when mysterious bug is fixed
 //				return continueRecursion(key, priority, currentNode, currentNode.leftChild);
 			}
 		}
 	}
 
 	// TODO: bug: it doesn't work for right child
-//	private Node<Key> continueRecursion(Key key, int priority, Node<Key> currentNode, Node<Key> currentNodeChild) {
+//	private Node<Key, Val> continueRecursion(Key key, int priority, Node<Key, Val> currentNode, Node<Key, Val> currentNodeChild) {
 //		currentNodeChild = recursiveInsert(key, priority, currentNodeChild);
 //		return currentNode;
 //	}
 
-	private Node<Key> createLeftChild(Key key, int priority, Node<Key> currentNode) {
-		Node<Key> newNode = new Node<Key>(key, 0, priority);
+	private Node<Key, Val> createLeftChild(Key key, Val value, int priority, Node<Key, Val> currentNode) {
+		Node<Key, Val> newNode = new Node<Key, Val>(key, value, priority);
 		currentNode.leftChild = newNode;
 		return currentNode;
 	}
 
-	private Node<Key> createRightChild(Key key, int priority, Node<Key> currentNode) {
-		Node<Key> newNode = new Node<Key>(key, 0, priority);
+	private Node<Key, Val> createRightChild(Key key, Val value, int priority, Node<Key, Val> currentNode) {
+		Node<Key, Val> newNode = new Node<Key, Val>(key, value, priority);
 		currentNode.rightChild = newNode;
 		return currentNode;
 	}
 
-	private Node<Key> continueRecursionLeft(Key key, int priority, Node<Key> currentNode) {
-		currentNode.leftChild = recursiveInsert(key, priority, currentNode.leftChild);
+	private Node<Key, Val> continueRecursionLeft(Key key, Val value, int priority, Node<Key, Val> currentNode) {
+		currentNode.leftChild = recursiveInsert(key, value, priority, currentNode.leftChild);
 		return currentNode;
 	}
 
-	private Node<Key> continueRecursionRight(Key key, int priority, Node<Key> currentNode) {
-		currentNode.rightChild = recursiveInsert(key, priority, currentNode.rightChild);
+	private Node<Key, Val> continueRecursionRight(Key key, Val value, int priority, Node<Key, Val> currentNode) {
+		currentNode.rightChild = recursiveInsert(key, value, priority, currentNode.rightChild);
 		return currentNode;
 	}
 
-	private Node<Key> createRoot(Key key, int priority) {
-		this.node = new Node<Key>(key, 0, priority);
+	private Node<Key, Val> createRoot(Key key, Val value, int priority) {
+		this.node = new Node<Key, Val>(key, value, priority);
 		this.node.leftChild = null;
 		this.node.rightChild = null;
 		return this.node;
 	}
 
-	private Node<Key> insertLeaf(Key key, int priority, Node<Key> currentNode) {
-		Node<Key> newNode = new Node<Key>(key, 0, priority);
+	private Node<Key, Val> insertLeaf(Key key, Val value, int priority, Node<Key, Val> currentNode) {
+		Node<Key, Val> newNode = new Node<Key, Val>(key, value, priority);
 		if (currentNode.keyLessThan(key)) {
 			currentNode.rightChild = newNode;
 		} else {
@@ -166,9 +176,9 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		return currentNode;
 	}
 
-	private Node<Key> insertInMiddleOfTreap(Key key, int priority, Node<Key> currentNode) {
+	private Node<Key, Val> insertInMiddleOfTreap(Key key, Val value, int priority, Node<Key, Val> currentNode) {
 		Pair<Treap<Key, Val>, Treap<Key, Val> > treaps = split(currentNode, key);
-		Node<Key> newNode = new Node<Key>(key, 0, priority);
+		Node<Key, Val> newNode = new Node<Key, Val>(key, value, priority);
 
 		if (treaps.getFirst().node != null) {
 			newNode.leftChild = treaps.getFirst().node;
@@ -182,7 +192,7 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		return this.node == null;
 	}
 
-	private boolean search (Node<Key> node, Key key) {
+	private boolean search (Node<Key, Val> node, Key key) {
 		if (node.key == key) return true;
 
 		if (node.keyLessThan(key)) {
@@ -198,7 +208,7 @@ public class Treap<Key extends Comparable<Key>, Val> {
 
 	public boolean remove(Key key) {
 		if(!contains(key)) return false;
-		if (node.key == key) { // TODO write test
+		if (node.key == key) { // TODO write test remove root
 			Treap<Key, Val> leftSubTree = new Treap<>(this.node.leftChild);
 			Treap<Key, Val> rightSubTree = new Treap<>(this.node.rightChild);
 
@@ -206,7 +216,7 @@ public class Treap<Key extends Comparable<Key>, Val> {
 			return true;
 		}
 
-		Node<Key> nodeFound = findFatherOfNodeToDelete(key);
+		Node<Key, Val> nodeFound = findFatherOfNodeToDelete(key);
 
 
 		if (nodeFound.leftChild != null && nodeFound.leftChild.key.compareTo(key) == 0) {
@@ -224,7 +234,7 @@ public class Treap<Key extends Comparable<Key>, Val> {
 	}
 
 
-	private Node<Key> findFatherOfNodeToDelete(Key key) {
+	private Node<Key, Val> findFatherOfNodeToDelete(Key key) {
 		if (oneChildMatches(key))
 			return node;
 
