@@ -196,9 +196,51 @@ public class Treap<Key extends Comparable<Key>, Val> {
 
 	} // search()
 
-	public void remove(String string) {
-		// TODO Auto-generated method stub
+	public boolean remove(Key key) {
+		if(!contains(key)) return false;
+		if (node.key == key) { // TODO write test
+			Treap<Key, Val> leftSubTree = new Treap<>(this.node.leftChild);
+			Treap<Key, Val> rightSubTree = new Treap<>(this.node.rightChild);
+
+			this.node = leftSubTree.merge(rightSubTree).node;
+			return true;
+		}
+
+		Node<Key> nodeFound = findFatherOfNodeToDelete(key);
+
+
+		if (nodeFound.leftChild != null && nodeFound.leftChild.key.compareTo(key) == 0) {
+			Treap<Key, Val> leftSubTreeOfDeletedNode = new Treap<>(nodeFound.leftChild.leftChild);
+			Treap<Key, Val> rightSubTreeOfDeletedNode = new Treap<>(nodeFound.leftChild.rightChild);
+			nodeFound.leftChild = leftSubTreeOfDeletedNode.merge(rightSubTreeOfDeletedNode).node;
+		} else {
+			Treap<Key, Val> leftSubTreeOfDeletedNode = new Treap<>(nodeFound.rightChild.leftChild);
+			Treap<Key, Val> rightSubTreeOfDeletedNode = new Treap<>(nodeFound.rightChild.rightChild);
+			nodeFound.rightChild = leftSubTreeOfDeletedNode.merge(rightSubTreeOfDeletedNode).node;
+		}
+
+		return true;
 
 	}
 
+
+	private Node<Key> findFatherOfNodeToDelete(Key key) {
+		if (oneChildMatches(key))
+			return node;
+
+		// case where target is certain to be found in subtree
+		if (node.keyLessThan(key)) {
+			Treap<Key, Val> treap = new Treap<>(node.rightChild);
+			return treap.findFatherOfNodeToDelete(key);
+
+		} else {
+			Treap<Key, Val> treap = new Treap<>(node.leftChild);
+			return treap.findFatherOfNodeToDelete(key);
+		}
+	}
+
+	private boolean oneChildMatches(Key key) {
+		return (node.rightChild != null && node.rightChild.key.compareTo(key) == 0 ) ||
+			   (node.leftChild != null && node.leftChild.key.compareTo(key) == 0);
+	}
 }

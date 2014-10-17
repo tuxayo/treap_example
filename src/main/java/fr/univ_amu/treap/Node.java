@@ -5,13 +5,19 @@ public class Node<Key extends Comparable<Key>> {
 
 	/*package*/ Node<Key> leftChild;
 	/*package*/ Node<Key> rightChild;
-	private float value;
+	/*package*/ int value;
 	int priority;
 
-	Node(Key key, float value, int priority) {
+	Node(Key key, int value, int priority) {
 		this.key = key;
 		this.value = value;
 		this.priority = priority;
+	}
+
+	Node(Key key, int value) { // for test purpose
+		this.key = key;
+		this.value = value;
+		this.priority = 0;
 	}
 
 	Node(Key key) { // for test purpose

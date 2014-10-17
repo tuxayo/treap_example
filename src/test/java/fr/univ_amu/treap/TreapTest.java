@@ -291,22 +291,41 @@ public class TreapTest {
 		assertEquals(9, treap.countNodes());
 	}
 
-	@Test@Ignore
+	@Test
 	public void testRemove() {
 		Treap<String, Integer> treap = new Treap<>(null);
 
 		treap.insertWithPriority("mille", 11);
 		treap.insertWithPriority("année-lumière", 51);
 		treap.insertWithPriority("mètre", 23);
-		treap.insertWithPriority("aaaa", 52);
 		treap.insertWithPriority("coudée", 89);
 		treap.insertWithPriority("sillon", 65);
 		treap.insertWithPriority("pied", 96);
 		treap.insertWithPriority("yard", 73);
-		treap.insertWithPriority("zèbre", 300);
 
 		treap.remove("année-lumière");
 		assertFalse(treap.contains("année-lumière"));
+		assertEquals(6, treap.countNodes());
+		assertEquals("mille", treap.node.key);
+		assertEquals("coudée", treap.node.leftChild.key);
 
+
+		treap.remove("coudée");
+		assertFalse(treap.contains("coudée"));
+		assertEquals(5, treap.countNodes());
+		assertEquals(null, treap.node.leftChild);
+
+		treap.remove("sillon");
+		assertFalse(treap.contains("sillon"));
+		assertEquals(4, treap.countNodes());
+		assertEquals("mètre", treap.node.rightChild.key);
+		assertEquals("yard", treap.node.rightChild.rightChild.key);
+		assertEquals("pied", treap.node.rightChild.rightChild.leftChild.key);
+	}
+
+	@Test
+	public void testFind() throws Exception {
+		Treap<String, Integer> treap = new Treap<>(null);
+//		treap.insert(key)
 	}
 }
