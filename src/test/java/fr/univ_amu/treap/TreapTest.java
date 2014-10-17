@@ -117,7 +117,7 @@ public class TreapTest {
 		assertEquals(2, splitResult.getFirst().countNodes());
 	}
 
-	@Test @Ignore
+	@Test
 	public void testInsertEmptyTreap() {
 		Treap<String, Integer> treap = new Treap<>(null);
 		treap.insert("sillon");
@@ -218,19 +218,46 @@ public class TreapTest {
 	@Test(expected = MergeFoundDuplicateKeysException.class)
 	public void testMergeException() throws Exception {
 		Treap<String, Integer> treap1 = new Treap<>(null);
-		treap1.insert("foo");
-		treap1.insert("bar");
 		treap1.insert("foobar");
 
 		Treap<String, Integer> treap2 = new Treap<>(null);
 		treap2.insert("foobar");
-		treap2.insert("baz");
+
+		treap1.merge(treap2);
+	}
+
+	@Ignore@Test(expected = MergeFoundDuplicateKeysException.class)
+	public void testMergeWithPotentialDuplicates() throws Exception {
+		Treap<String, Integer> treap1 = new Treap<>(null);
+		treap1.insertWithPriority("foo", 4);
+		treap1.insertWithPriority("bar", 459);
+		treap1.insertWithPriority("foobar", 1);
+
+		Treap<String, Integer> treap2 = new Treap<>(null);
+		treap2.insertWithPriority("gee", 1);
+		treap2.insertWithPriority("gaga", 2);
+		treap2.insertWithPriority("foobar", 5044);
+		treap2.insertWithPriority("fa", 5100);
+
+		treap1.merge(treap2);
+	}
+
+	@Ignore@Test(expected = MergeFoundDuplicateKeysException.class)
+	public void testMergeWithPotentialDuplicatesOnlyLeftChilds() {
+		Treap<String, Integer> treap1 = new Treap<>(null);
+
+		treap1.insertWithPriority("foobar", 1);
+
+		Treap<String, Integer> treap2 = new Treap<>(null);
+		treap2.insertWithPriority("gaga", 2);
+		treap2.insertWithPriority("fa", 5100);
+		treap2.insertWithPriority("foobar", 5044);
 
 		treap1.merge(treap2);
 	}
 
 	@Test
-	public void testMergeExceptionMessage() throws Exception {
+	public void testMergeExceptionMessage() {
 		Treap<String, Integer> treap1 = new Treap<>(null);
 		treap1.insert("foo");
 		treap1.insert("bar");
@@ -238,7 +265,6 @@ public class TreapTest {
 
 		Treap<String, Integer> treap2 = new Treap<>(null);
 		treap2.insert("foobar");
-		treap2.insert("baz");
 		try {
 			treap1.merge(treap2);
 		} catch (MergeFoundDuplicateKeysException e) {
@@ -249,7 +275,7 @@ public class TreapTest {
 	}
 
 	@Test
-	public void testCountNodes() throws Exception {
+	public void testCountNodes() {
 		Treap<String, Integer> treap = new Treap<>(null);
 
 		treap.insertWithPriority("mille", 11);
@@ -263,5 +289,24 @@ public class TreapTest {
 		treap.insertWithPriority("zèbre", 300);
 
 		assertEquals(9, treap.countNodes());
+	}
+
+	@Test@Ignore
+	public void testRemove() {
+		Treap<String, Integer> treap = new Treap<>(null);
+
+		treap.insertWithPriority("mille", 11);
+		treap.insertWithPriority("année-lumière", 51);
+		treap.insertWithPriority("mètre", 23);
+		treap.insertWithPriority("aaaa", 52);
+		treap.insertWithPriority("coudée", 89);
+		treap.insertWithPriority("sillon", 65);
+		treap.insertWithPriority("pied", 96);
+		treap.insertWithPriority("yard", 73);
+		treap.insertWithPriority("zèbre", 300);
+
+		treap.remove("année-lumière");
+		assertFalse(treap.contains("année-lumière"));
+
 	}
 }

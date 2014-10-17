@@ -29,7 +29,7 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		}
 	}
 
-	public Treap<Key, Val> merge(Treap<Key, Val> otherTreap) throws MergeFoundDuplicateKeysException {
+	/*package*/ Treap<Key, Val> merge(Treap<Key, Val> otherTreap) throws MergeFoundDuplicateKeysException {
 		// if one or both treaps are empty
 		if(this.node == null) return otherTreap;
 		if(otherTreap.node == null) return this;
@@ -39,7 +39,7 @@ public class Treap<Key extends Comparable<Key>, Val> {
 			Treap<Key, Val> treapWithGreaterPriority = this;
 			return newRoot.selectChildAndMerge(treapWithGreaterPriority);
 
-		} else { // lower of equal case
+		} else { // lower or equal case
 			Treap<Key, Val> newRoot = this;
 			Treap<Key, Val> treapWithGreaterPriority = otherTreap;
 			return newRoot.selectChildAndMerge(treapWithGreaterPriority);
@@ -195,5 +195,10 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		}
 
 	} // search()
+
+	public void remove(String string) {
+		// TODO Auto-generated method stub
+
+	}
 
 }
