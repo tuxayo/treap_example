@@ -189,6 +189,22 @@ public class TreapTest {
 	}
 
 	@Test
+	public void testInsert3() throws Exception {
+		Treap<String, String> treap = new Treap<>(null);
+		treap.insertWithPriority("yard", "something" , 121162404);
+		treap.insertWithPriority("sillon","please give us a good mark", 2055379626);
+		treap.insertWithPriority("as you like...", "no", 726777745);
+		treap.insertWithPriority("pied", "lol", 1504883295);
+
+		assertEquals(4, treap.countNodes());
+//		treap.insert("yard", "something");
+//		treap.insert("sillon", "please give us a good mark");
+//		treap.insert("as you like...", "no");
+//		treap.insert("pied", "lol");
+
+	}
+
+	@Test
 	public void testMerge() {
 		Treap<String, Integer> treap1 = new Treap<>(null);
 		Treap<String, Integer> treap2 = new Treap<>(null);
@@ -323,14 +339,25 @@ public class TreapTest {
 		assertEquals("pied", treap.node.rightChild.rightChild.leftChild.key);
 	}
 
-	@Test // TODO insert value and find it
+	@Test // insert fail, fix it first
 	public void testFind() throws Exception {
-		Treap<String, Integer> treap = new Treap<>(null);
-		treap.insert("sillon", 65);
-		treap.insert("yard", -42);
-		treap.insert("as you like...", 0);
-		treap.insert("pied", 96);
+		Treap<String, String> treap = new Treap<>(null);
+		System.out.println("Begin our test");
+		treap.insert("yard", "something");
+		treap.insert("sillon", "please give us a good mark");
+		treap.insert("as you like...", "no");
+		treap.insert("pied", "lol");
 
-		assertEquals(0, treap.find("as you like..."));
+		assertEquals("no", treap.find("as you like..."));
+		try {
+			assertEquals(4, treap.countNodes());
+		} catch (AssertionError e) {
+			System.out.println("FAIL");
+		}
+
+		assertEquals("something", treap.find("yard"));
+		treap.remove("yard");
+		assertEquals(null, treap.find("yard"));
+
 	}
 }

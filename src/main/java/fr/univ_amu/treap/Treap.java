@@ -31,6 +31,7 @@ public class Treap<Key extends Comparable<Key>, Val> {
 
 	public void insert(Key key, Val value) {
 		int priority = (int)(Math.random()* Integer.MAX_VALUE);
+		System.out.println(priority);
 		insertWithPriority(key, value, priority);
 	}
 
@@ -72,9 +73,19 @@ public class Treap<Key extends Comparable<Key>, Val> {
 	}
 
 
-	public Object find(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	public Val find(Key key) {
+		if(this.node == null) return null;
+
+		if(this.node.key == key) return this.node.value;
+
+		Treap<Key, Val> subTreap = null;
+		if(this.node.keyLessThan(key)) {
+			subTreap = new Treap<>(this.node.rightChild);
+			return subTreap.find(key);
+		} else {
+			subTreap = new Treap<>(this.node.leftChild);
+			return subTreap.find(key);
+		}
 	}
 
 	// default access right only for tests
