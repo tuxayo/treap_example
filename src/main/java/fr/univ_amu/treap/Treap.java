@@ -13,7 +13,6 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		if (node == null)
 			return new Pair<>(new Treap<>(null), new Treap<>(null));
 
-//		if (nodeKeyLessThanKey(node, key)) { // TODO delete
 		if (node.keyLessThan(key)) {
 			Pair<Treap<Key, Val>, Treap<Key, Val>> rightChildSplit = split(node.rightChild, key);
 			node.rightChild = rightChildSplit.getFirst().node;
@@ -119,6 +118,12 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		}
 	}
 
+	// TODO: bug: it doesn't work for right child
+//	private Node<Key> continueRecursion(Key key, int priority, Node<Key> currentNode, Node<Key> currentNodeChild) {
+//		currentNodeChild = recursiveInsert(key, priority, currentNodeChild);
+//		return currentNode;
+//	}
+
 	private Node<Key> createLeftChild(Key key, int priority, Node<Key> currentNode) {
 		Node<Key> newNode = new Node<Key>(key, 0, priority);
 		currentNode.leftChild = newNode;
@@ -130,12 +135,6 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		currentNode.rightChild = newNode;
 		return currentNode;
 	}
-
-	// TODO: bug: it doesn't work for right child
-//	private Node<Key> continueRecursion(Key key, int priority, Node<Key> currentNode, Node<Key> currentNodeChild) {
-//		currentNodeChild = recursiveInsert(key, priority, currentNodeChild);
-//		return currentNode;
-//	}
 
 	private Node<Key> continueRecursionLeft(Key key, int priority, Node<Key> currentNode) {
 		currentNode.leftChild = recursiveInsert(key, priority, currentNode.leftChild);
