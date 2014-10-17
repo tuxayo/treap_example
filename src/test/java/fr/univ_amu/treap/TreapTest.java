@@ -199,23 +199,25 @@ public class TreapTest {
 		Treap<String, Integer> treap1 = new Treap<>(null);
 		Treap<String, Integer> treap2 = new Treap<>(null);
 
-
 		treap1.insertWithPriority("mille", 11);
 		treap1.insertWithPriority("année-lumière", 51);
 		treap1.insertWithPriority("coudée", 89);
 		treap1.insertWithPriority("mètre", 23);
 		treap1.insertWithPriority("pied", 96);
 
-		treap2.insertWithPriority("aaa", 65);
+		treap2.insertWithPriority("sillion", 65);
 		treap2.insertWithPriority("yard", 73);
-
 
 		Treap<String, Integer> treapResult = treap1.merge(treap2);
 
 		assertEquals("mille", treapResult.node.key);
 		assertEquals("année-lumière", treapResult.node.getLeftChild().key);
-		assertEquals("aaa", treapResult.node.getLeftChild().getLeftChild().key);
 		assertEquals("coudée", treapResult.node.getLeftChild().getRightChild().key);
 
+		assertEquals("mètre", treapResult.node.getRightChild().key);
+		Node<String> sillion = treapResult.node.getRightChild().getRightChild();
+		assertEquals("sillion", sillion.key);
+		assertEquals("pied", sillion.getLeftChild().key);
+		assertEquals("yard", sillion.getRightChild().key);
 	}
 }
