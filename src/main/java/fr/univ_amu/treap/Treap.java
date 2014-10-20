@@ -31,7 +31,6 @@ public class Treap<Key extends Comparable<Key>, Val> {
 
 	public void insert(Key key, Val value) {
 		int priority = (int)(Math.random()* Integer.MAX_VALUE);
-		System.out.println(priority);
 		insertWithPriority(key, value, priority);
 	}
 
@@ -225,7 +224,8 @@ public class Treap<Key extends Comparable<Key>, Val> {
 
 		if (treaps.getFirst().node != null) {
 			newNode.leftChild = treaps.getFirst().node;
-		} else {
+		}
+		if ((treaps.getSecond().node != null)) {
 			newNode.rightChild = treaps.getSecond().node;
 		}
 		return newNode;

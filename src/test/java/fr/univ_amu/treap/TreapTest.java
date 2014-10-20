@@ -162,7 +162,6 @@ public class TreapTest {
 		Treap<String, Integer> treap = new Treap<>(null);
 
 		treap.insertWithPriority("yard", 73);
-		treap.insertWithPriority("mille", 11);
 		treap.insertWithPriority("sillon", 65);
 		treap.insertWithPriority("zèbre", 300);
 		treap.insertWithPriority("année-lumière", 51);
@@ -170,6 +169,7 @@ public class TreapTest {
 		treap.insertWithPriority("mètre", 23);
 		treap.insertWithPriority("coudée", 89);
 		treap.insertWithPriority("pied", 96);
+		treap.insertWithPriority("mille", 11);
 
 		assertEquals("mille", treap.node.key);
 		assertEquals("mètre", treap.node.rightChild.key);
@@ -189,19 +189,13 @@ public class TreapTest {
 	}
 
 	@Test
-	public void testInsert3() throws Exception {
+	public void testInsertOnRoot() throws Exception {
 		Treap<String, String> treap = new Treap<>(null);
-		treap.insertWithPriority("yard", "something" , 121162404);
-		treap.insertWithPriority("sillon","please give us a good mark", 2055379626);
-		treap.insertWithPriority("as you like...", "no", 726777745);
-		treap.insertWithPriority("pied", "lol", 1504883295);
-
+		treap.insertWithPriority("yard", "something", 30);
+		treap.insertWithPriority("sillon","string2",  40);
+		treap.insertWithPriority("string", "no",      20);
+		treap.insertWithPriority("pied", "lol",       10);
 		assertEquals(4, treap.countNodes());
-//		treap.insert("yard", "something");
-//		treap.insert("sillon", "please give us a good mark");
-//		treap.insert("as you like...", "no");
-//		treap.insert("pied", "lol");
-
 	}
 
 	@Test
@@ -339,25 +333,20 @@ public class TreapTest {
 		assertEquals("pied", treap.node.rightChild.rightChild.leftChild.key);
 	}
 
-	@Test // insert fail, fix it first
+	@Test
 	public void testFind() throws Exception {
 		Treap<String, String> treap = new Treap<>(null);
-		System.out.println("Begin our test");
 		treap.insert("yard", "something");
 		treap.insert("sillon", "please give us a good mark");
 		treap.insert("as you like...", "no");
 		treap.insert("pied", "lol");
 
 		assertEquals("no", treap.find("as you like..."));
-		try {
-			assertEquals(4, treap.countNodes());
-		} catch (AssertionError e) {
-			System.out.println("FAIL");
-		}
+		assertEquals(4, treap.countNodes());
+
 
 		assertEquals("something", treap.find("yard"));
 		treap.remove("yard");
 		assertEquals(null, treap.find("yard"));
-
 	}
 }
