@@ -8,9 +8,10 @@ import fr.univ_amu.treap.Treap;
 public class lectureTexte {
 
 	public static void main(String[] args) {
-		Treap<String, Integer> treap = new Treap<String, Integer>(null);
+		Treap<String, Integer> treap = new Treap<String, Integer>();
 		System.out.println("Begin filling treap");
 		readTextFromStdIn(treap);
+		System.out.println("Number of unique words:");
 		System.out.println(treap.countNodes());
 	}
 
@@ -30,7 +31,6 @@ public class lectureTexte {
 				addToTree(word, treap);
 			}
 		}
-
 		scan.close();
 	}
 

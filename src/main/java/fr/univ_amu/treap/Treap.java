@@ -5,13 +5,17 @@ import java.lang.Math;
 public class Treap<Key extends Comparable<Key>, Val> {
 	Node<Key, Val> node;  // default access right only for tests
 
+	public Treap() {
+		this.node = null;
+	}
+
 	public Treap(Node<Key, Val> node) {
 		this.node = node;
 	}
 
 	public Pair<Treap<Key, Val>, Treap<Key, Val>> split(Node<Key, Val> node, Key key) {
 		if (node == null)
-			return new Pair<>(new Treap<>(null), new Treap<>(null));
+			return new Pair<>(new Treap<>(), new Treap<>());
 
 		if (node.keyLessThan(key)) {
 			Pair<Treap<Key, Val>, Treap<Key, Val>> rightChildSplit = split(node.rightChild, key);
@@ -165,21 +169,21 @@ public class Treap<Key extends Comparable<Key>, Val> {
 				return createRightChild(key, value, priority, currentNode);
 			} else {
 				return continueRecursionRight(key, value, priority, currentNode); // TODO: use refactored version when mysterious bug is fixed
-//				return continueRecursion(key, priority, currentNode, currentNode.rightChild);
+//				return continueRecursion(key, priority, value, currentNode, currentNode.rightChild);
 			}
 		} else {
 			if(currentNode.leftChild == null) {
 				return createLeftChild(key, value, priority, currentNode);
 			} else {
 				return continueRecursionLeft(key, value, priority, currentNode); // TODO: use refactored version when mysterious bug is fixed
-//				return continueRecursion(key, priority, currentNode, currentNode.leftChild);
+//				return continueRecursion(key, priority, value, currentNode, currentNode.leftChild);
 			}
 		}
 	}
 
 	// TODO: bug: it doesn't work for right child
 //	private Node<Key, Val> continueRecursion(Key key, int priority, Node<Key, Val> currentNode, Node<Key, Val> currentNodeChild) {
-//		currentNodeChild = recursiveInsert(key, priority, currentNodeChild);
+//		currentNodeChild = recursiveInsert(key, priority, value, currentNodeChild);
 //		return currentNode;
 //	}
 
