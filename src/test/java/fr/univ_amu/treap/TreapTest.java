@@ -349,4 +349,15 @@ public class TreapTest {
 		treap.remove("yard");
 		assertEquals(null, treap.find("yard"));
 	}
+
+
+	@Test
+	public void testInsertSameKey() throws Exception {
+		Treap<String, String> treap = new Treap<>(null);
+		treap.insert("yard", "something");
+		treap.insert("yard", "double something");
+		assertEquals(1, treap.countNodes());
+		assertEquals("double something", treap.find("yard"));
+	}
+
 }
