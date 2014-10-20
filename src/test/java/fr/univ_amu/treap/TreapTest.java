@@ -199,6 +199,15 @@ public class TreapTest {
 	}
 
 	@Test
+	public void testInsertSameKey() throws Exception {
+		Treap<String, String> treap = new Treap<>(null);
+		treap.insert("yard", "something");
+		treap.insert("yard", "double something");
+		assertEquals(1, treap.countNodes());
+		assertEquals("double something", treap.find("yard"));
+	}
+
+	@Test
 	public void testMerge() {
 		Treap<String, Integer> treap1 = new Treap<>(null);
 		Treap<String, Integer> treap2 = new Treap<>(null);
@@ -348,16 +357,6 @@ public class TreapTest {
 		assertEquals("something", treap.find("yard"));
 		treap.remove("yard");
 		assertEquals(null, treap.find("yard"));
-	}
-
-
-	@Test
-	public void testInsertSameKey() throws Exception {
-		Treap<String, String> treap = new Treap<>(null);
-		treap.insert("yard", "something");
-		treap.insert("yard", "double something");
-		assertEquals(1, treap.countNodes());
-		assertEquals("double something", treap.find("yard"));
 	}
 
 }

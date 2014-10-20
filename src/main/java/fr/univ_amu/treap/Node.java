@@ -66,4 +66,8 @@ public class Node<Key extends Comparable<Key>, Val> {
 		if (node == null) return 0;
 		return (countNodes(node.getLeftChild()) + countNodes(node.getRightChild()) + 1);
 	}
-}
+
+	public void setValue(Val value) {
+		this.value = value;
+	}
+ }

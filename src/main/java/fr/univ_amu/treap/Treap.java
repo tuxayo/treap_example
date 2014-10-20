@@ -110,7 +110,11 @@ public class Treap<Key extends Comparable<Key>, Val> {
 	}
 
 	void insertWithPriority(Key key, Val value, int priority) { // only for tests
-		if (this.contains(key)) return; // not allow duplicates
+		if (this.contains(key)) { // not allow duplicates
+			Node<Key, Val> nodeDuplicate = findNode(this.node, key);
+			nodeDuplicate.setValue(value);
+			return;
+		}
 
 		this.node = recursiveInsert(key, value, priority, this.node);
 		return;
@@ -234,6 +238,21 @@ public class Treap<Key extends Comparable<Key>, Val> {
 	private boolean IsEmpty () {
 		return this.node == null;
 	}
+
+	private Node<Key, Val> findNode(Node<Key, Val> node, Key key) {
+		if (node.key == key) return node;
+
+		if (node.keyLessThan(key)) {
+			if (node.rightChild == null) return null;
+			return findNode(node.rightChild, key);
+
+		} else {
+			if (node.leftChild == null) return null;
+			return findNode(node.leftChild, key);
+		}
+
+	}
+
 
 	private boolean search (Node<Key, Val> node, Key key) {
 		if (node.key == key) return true;
