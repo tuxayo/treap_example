@@ -35,6 +35,7 @@ public class Treap<Key extends Comparable<Key>, Val> {
 
 	public void insert(Key key, Val value) {
 		int priority = (int)(Math.random()* Integer.MAX_VALUE);
+
 		insertWithPriority(key, value, priority);
 	}
 
@@ -147,7 +148,7 @@ public class Treap<Key extends Comparable<Key>, Val> {
 		return this;
 	}
 
-	private Node<Key, Val> recursiveInsert (Key key, Val value, int priority, Node<Key, Val> currentNode) {
+	private Node<Key, Val> recursiveInsert(Key key, Val value, int priority, Node<Key, Val> currentNode) {
 		if (this.IsEmpty()) {
 			return createRoot(key, value, priority);
 		}

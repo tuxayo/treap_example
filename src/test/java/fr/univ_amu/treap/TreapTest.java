@@ -359,4 +359,53 @@ public class TreapTest {
 		assertEquals(null, treap.find("yard"));
 	}
 
+	@Test
+	public void testInsertBigTree() throws Exception {
+		Treap<String, Integer> treap = new Treap<>();
+
+		treap.insert("dantès", 1);
+		treap.insert("yard", 1);
+		treap.insert("sillon", 1);
+		treap.insert("test", 1);
+		treap.insert("fdds", 1);
+		treap.insert("dsfdgsd", 1);
+		treap.insert("dantès", 2);
+		treap.insert("sillon", 2);
+		treap.insert("fdsqfdsf", 1);
+		treap.insert("qesfesfd", 1);
+		treap.insert("marche", 1);
+		treap.insert("sqdfdsfs", 1);
+		treap.insert("dsgfdsf", 1);
+		treap.insert("dantès", 3);
+		treap.insert("dantès", 4);
+		treap.insert("dantès", 5);
+		treap.insert("dsfds", 1);
+		treap.insert("qsdsqdq", 1);
+		treap.insert("dsfdsf", 1);
+		treap.insert("yard", 2);
+		treap.insert("qsfdss", 1);
+		treap.insert("dsfdsfs", 1);
+		treap.insert("srdgffds", 1);
+		treap.insert("yjhythjytjt", 1);
+		treap.insert("rdgfdgfd", 1);
+		treap.insert("dantès", 6);
+		treap.insert("dantès", 7);
+		treap.insert("dantès", 8);
+		treap.insert("fdsgfd", 1);
+		treap.insert("yard", 3);
+		treap.insert("yard", 4);
+		treap.insert("yard", 5);
+		treap.insert("marche", 2);
+		treap.insert("fdsdsfds", 1);
+		treap.insert("dsfsdf", 1);
+		treap.insert("esfsdfsf", 1);
+		treap.insert("gdfgfd", 1);
+		treap.insert("sillon", 3);
+		treap.insert("sgftrrhyt", 1);
+		treap.insert("dantès", 9);
+		treap.insert("dantès", 10);
+
+		assertEquals(25, treap.countNodes());
+	}
+
 }
